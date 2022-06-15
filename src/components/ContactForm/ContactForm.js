@@ -1,30 +1,31 @@
 import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
 
 import styles from './ContactForm.module.css';
 
-import {
-  useAddContactMutation,
-  useFetchContactsQuery,
-} from 'redux/contacts-slice';
+// import {
+//   useAddContactMutation,
+//   useFetchContactsQuery,
+// } from 'redux/contacts-slice';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [addContact] = useAddContactMutation();
-  const { data } = useFetchContactsQuery();
-  const contacts = data;
+  // const [addContact] = useAddContactMutation();
+  // const { data } = useFetchContactsQuery();
+  // const contacts = data;
 
   const handleSubmit = e => {
     e.preventDefault();
-    if (
-      contacts.some(
-        contact => contact.name.toLowerCase() === name.toLowerCase()
-      )
-    ) {
-      alert(`${name} is already in contacts`);
-      return;
-    }
-    addContact({ name, phone });
+    // if (
+    //   contacts.some(
+    //     contact => contact.name.toLowerCase() === name.toLowerCase()
+    //   )
+    // ) {
+    //   alert(`${name} is already in contacts`);
+    //   return;
+    // }
+    // addContact({ name, phone });
     setName('');
     setPhone('');
   };
@@ -66,9 +67,7 @@ const ContactForm = () => {
           required
         />
       </label>
-      <button className={styles.btn} type="submit">
-        Add contact
-      </button>
+      <Button type="submit">Add contact</Button>
     </form>
   );
 };
