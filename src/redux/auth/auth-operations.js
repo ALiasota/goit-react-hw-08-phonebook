@@ -15,7 +15,7 @@ const token = {
 const register = createAsyncThunk('auth/register', async credentials => {
   try {
     const { data } = await axios.post('users/signup', credentials);
-    token.set(data.Authorization);
+    token.set(data.token);
     return data;
   } catch {
     console.error();
@@ -25,7 +25,8 @@ const register = createAsyncThunk('auth/register', async credentials => {
 const logIn = createAsyncThunk('auth/login', async credentials => {
   try {
     const { data } = await axios.post('users/login', credentials);
-    token.set(data.Authorization);
+
+    token.set(data.token);
     return data;
   } catch {
     console.error();
@@ -45,11 +46,14 @@ const fetchCurrentUser = createAsyncThunk(
   'auth/refresh',
   async (_, thunkAPI) => {
     const state = thunkAPI.getState();
+
     const persistedToken = state.auth.token;
-    if ((persistedToken = null)) {
+
+    if (persistedToken === null) {
       console.log('No user');
       return thunkAPI.rejectWithValue();
     }
+
     token.set(persistedToken);
     try {
       const { data } = await axios.get('/users/current');

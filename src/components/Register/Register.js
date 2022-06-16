@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { authOperations } from 'redux/auth';
+import { Button, Form } from 'react-bootstrap';
+
 export default function Register() {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
@@ -22,41 +24,51 @@ export default function Register() {
   const handleSubmit = e => {
     e.preventDefault();
     dispatch(authOperations.register({ name, email, password }));
+
     setName('');
     setEmail('');
     setPassword('');
   };
   return (
-    <div>
+    <>
       <h1>Register form</h1>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            name="name"
+            value={name}
+            onChange={handleChange}
+            type="text"
+            placeholder="Enter name"
+          />
+        </Form.Group>
 
-      <form onSubmit={handleSubmit} autoComplete="off">
-        <label>
-          Name
-          <input type="text" name="name" value={name} onChange={handleChange} />
-        </label>
-        <label>
-          Mail
-          <input
-            type="email"
+        <Form.Group className="mb-3">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
             name="email"
             value={email}
             onChange={handleChange}
+            type="email"
+            placeholder="Enter email"
           />
-        </label>
+        </Form.Group>
 
-        <label>
-          Password
-          <input
-            type="password"
+        <Form.Group className="mb-3">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
             name="password"
             value={password}
             onChange={handleChange}
+            type="password"
+            placeholder="Password"
           />
-        </label>
-
-        <button type="submit">Register</button>
-      </form>
-    </div>
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
+    </>
   );
 }

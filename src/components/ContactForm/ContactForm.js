@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-
-import styles from './ContactForm.module.css';
+import { Button, Form } from 'react-bootstrap';
+// import Filter from 'components/Filter';
 
 // import {
 //   useAddContactMutation,
@@ -39,36 +38,36 @@ const ContactForm = () => {
   };
 
   return (
-    <form className={styles.ContactForm} onSubmit={handleSubmit}>
+    <>
       <h1>Phonebook</h1>
-      <label className={styles.label}>
-        Name
-        <input
-          className={styles.inp}
-          type="text"
-          name="name"
-          value={name}
-          onChange={handleChangeName}
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-        />
-      </label>
-      <label className={styles.label}>
-        Phone
-        <input
-          className={styles.inp}
-          type="tel"
-          name="phone"
-          value={phone}
-          onChange={handleChangePhone}
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          required
-        />
-      </label>
-      <Button type="submit">Add contact</Button>
-    </form>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            name="name"
+            value={name}
+            onChange={handleChangeName}
+            type="text"
+            placeholder="Enter name"
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Phone</Form.Label>
+          <Form.Control
+            name="phone"
+            value={phone}
+            onChange={handleChangePhone}
+            type="tel"
+            placeholder="Enter phone"
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
+      {/* <Filter /> */}
+    </>
   );
 };
 
