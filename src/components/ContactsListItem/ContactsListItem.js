@@ -1,23 +1,46 @@
-import styles from './ContactsListItem.module.css';
+import { useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import ContactForm from 'components/ContactForm';
 import propTypes from 'prop-types';
 
-import { useDelContactMutation } from 'redux/contacts-slice';
+import { useDelContactMutation } from 'redux/contacts';
 
-const ContactListItem = ({ name, phone, id }) => {
+const ContactListItem = ({ name, number, id }) => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [delContact, { isLoading: isUpdating }] = useDelContactMutation();
 
   return (
-    <li className={styles.li}>
+    <li className="list-group-item d-flex justify-content-between align-items-center">
       <span>
-        {name}: {phone}
+        {name}: {number}
       </span>
-      <button
-        className={styles.btnDel}
-        type="button"
-        onClick={() => delContact(id)}
-      >
-        {isUpdating ? 'isDeliting...' : 'Delete'}
-      </button>
+      <div>
+        <Button className="btn-sm" type="button" onClick={handleShow}>
+          Change
+        </Button>
+
+        <span> </span>
+        <Button className="btn-sm" type="button" onClick={() => delContact(id)}>
+          {isUpdating ? 'isDeliting...' : 'Delete'}
+        </Button>
+      </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Change contact</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ContactForm
+            btn="Change contact"
+            changedName={name}
+            changedNumber={number}
+            changedId={id}
+            closeModal={handleClose}
+          />
+        </Modal.Body>
+      </Modal>
     </li>
   );
 };
@@ -25,7 +48,7 @@ const ContactListItem = ({ name, phone, id }) => {
 ContactListItem.propTypes = {
   name: propTypes.string.isRequired,
   id: propTypes.string.isRequired,
-  phone: propTypes.string.isRequired,
+  number: propTypes.string.isRequired,
 };
 
 export default ContactListItem;

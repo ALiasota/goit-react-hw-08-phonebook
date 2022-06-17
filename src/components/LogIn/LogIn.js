@@ -20,6 +20,10 @@ export default function Login() {
 
   const handleSubmit = e => {
     e.preventDefault();
+    if (email === '' || password === '') {
+      alert('Please enter all fields');
+      return;
+    }
     dispatch(authOperations.logIn({ email, password }));
 
     setEmail('');
@@ -27,7 +31,7 @@ export default function Login() {
   };
   return (
     <>
-      <h1>Login form</h1>
+      <h1 className="text-primary">Login form</h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Email address</Form.Label>

@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 
 export default function SignedOut() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-around">
+    <nav className="rounded border border-1 navbar navbar-expand-lg navbar-light  d-flex justify-content-around bg-light bg-white ">
       <LinkContainer to="login">
         <Button>Login</Button>
       </LinkContainer>

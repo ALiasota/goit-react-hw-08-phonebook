@@ -23,6 +23,10 @@ export default function Register() {
 
   const handleSubmit = e => {
     e.preventDefault();
+    if (name === '' || email === '' || password === '') {
+      alert('Please enter all fields');
+      return;
+    }
     dispatch(authOperations.register({ name, email, password }));
 
     setName('');
@@ -31,7 +35,7 @@ export default function Register() {
   };
   return (
     <>
-      <h1>Register form</h1>
+      <h1 className="text-primary">Register form</h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Name</Form.Label>

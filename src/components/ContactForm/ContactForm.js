@@ -1,46 +1,63 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-// import Filter from 'components/Filter';
+import propTypes from 'prop-types';
+import {
+  useAddContactMutation,
+  useFetchContactsQuery,
+  useChangeContactMutation,
+} from 'redux/contacts/contacts-slice';
 
-// import {
-//   useAddContactMutation,
-//   useFetchContactsQuery,
-// } from 'redux/contacts-slice';
-
-const ContactForm = () => {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  // const [addContact] = useAddContactMutation();
-  // const { data } = useFetchContactsQuery();
-  // const contacts = data;
+const ContactForm = ({
+  btn = 'Add contact',
+  changedName = '',
+  changedNumber = '',
+  changedId = null,
+  closeModal = null,
+}) => {
+  const [name, setName] = useState(changedName);
+  const [number, setNumber] = useState(changedNumber);
+  const [addContact] = useAddContactMutation();
+  const [changeContact] = useChangeContactMutation();
+  const { data } = useFetchContactsQuery();
+  const contacts = data;
 
   const handleSubmit = e => {
     e.preventDefault();
-    // if (
-    //   contacts.some(
-    //     contact => contact.name.toLowerCase() === name.toLowerCase()
-    //   )
-    // ) {
-    //   alert(`${name} is already in contacts`);
-    //   return;
-    // }
-    // addContact({ name, phone });
+
+    if (name === '' || number === '') {
+      alert(`Please fill all fields`);
+      return;
+    }
+    if (btn === 'Add contact') {
+      if (
+        contacts.some(
+          contact => contact.name.toLowerCase() === name.toLowerCase()
+        )
+      ) {
+        alert(`${name} is already in contacts`);
+        return;
+      }
+      addContact({ name, number });
+    } else {
+      changeContact({ changedId, name, number });
+      closeModal();
+    }
+
     setName('');
-    setPhone('');
+    setNumber('');
   };
 
   const handleChangeName = e => {
     setName(e.target.value);
   };
 
-  const handleChangePhone = e => {
-    setPhone(e.target.value);
+  const handleChangeNumber = e => {
+    setNumber(e.target.value);
   };
 
   return (
     <>
-      <h1>Phonebook</h1>
-      <Form onSubmit={handleSubmit}>
+      <Form className="mt-4" onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Name</Form.Label>
           <Form.Control
@@ -53,22 +70,29 @@ const ContactForm = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Phone</Form.Label>
+          <Form.Label>Number</Form.Label>
           <Form.Control
-            name="phone"
-            value={phone}
-            onChange={handleChangePhone}
+            name="number"
+            value={number}
+            onChange={handleChangeNumber}
             type="tel"
-            placeholder="Enter phone"
+            placeholder="Enter number"
           />
         </Form.Group>
         <Button variant="primary" type="submit">
-          Submit
+          {btn}
         </Button>
       </Form>
-      {/* <Filter /> */}
     </>
   );
+};
+
+ContactForm.propTypes = {
+  changedName: propTypes.string,
+  changedId: propTypes.string,
+  changedNumber: propTypes.string,
+  btn: propTypes.string,
+  closeModal: propTypes.func,
 };
 
 export default ContactForm;

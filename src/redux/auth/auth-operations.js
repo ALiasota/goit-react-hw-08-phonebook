@@ -30,6 +30,7 @@ const logIn = createAsyncThunk('auth/login', async credentials => {
     return data;
   } catch {
     console.error();
+    alert('Something is wrong, please try again');
   }
 });
 
@@ -39,6 +40,7 @@ const logOut = createAsyncThunk('auth/logout', async () => {
     token.unset();
   } catch {
     console.error();
+    alert('Something is wrong, please try again');
   }
 });
 
