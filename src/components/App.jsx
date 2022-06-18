@@ -43,6 +43,7 @@ const App = () => {
                 <Route path="/" element={<Navigate replace to="contacts" />} />
                 <Route path="contacts" element={<Contacts />} />
               </Route>
+             <Route path="*" element={<Navigate replace to="/" />} />
             </Routes>
           </Suspense>
         </>
