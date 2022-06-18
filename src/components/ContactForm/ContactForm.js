@@ -16,8 +16,8 @@ const ContactForm = ({
 }) => {
   const [name, setName] = useState(changedName);
   const [number, setNumber] = useState(changedNumber);
-  const [addContact] = useAddContactMutation();
-  const [changeContact] = useChangeContactMutation();
+  const [addContact, { isLoading: isAdding }] = useAddContactMutation();
+  const [changeContact, { isLoading: isChanging }] = useChangeContactMutation();
   const { data } = useFetchContactsQuery();
   const contacts = data;
 
@@ -80,7 +80,7 @@ const ContactForm = ({
           />
         </Form.Group>
         <Button variant="primary" type="submit">
-          {btn}
+          {isAdding || isChanging ? 'Procesing...' : `${btn}`}
         </Button>
       </Form>
     </>
