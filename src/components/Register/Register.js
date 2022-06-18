@@ -27,11 +27,15 @@ export default function Register() {
       alert('Please enter all fields');
       return;
     }
-    dispatch(authOperations.register({ name, email, password }));
-
-    setName('');
-    setEmail('');
-    setPassword('');
+    dispatch(authOperations.register({ name, email, password })).then(
+      ({ meta }) => {
+        if (meta.requestStatus === 'fulfilled') {
+          setName('');
+          setEmail('');
+          setPassword('');
+        }
+      }
+    );
   };
   return (
     <>
